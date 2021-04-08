@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Elasticsearch access service implementation
+ * Elasticsearch access service implementation.
  */
 @Service
 public class ESAccessServiceImpl implements ESAccessService {
@@ -28,7 +28,6 @@ public class ESAccessServiceImpl implements ESAccessService {
     private static final String PUB_DATE = "pubDate";
     private static final String COMMENTS = "comments";
     private static final String DESCRIPTION = "description";
-    private static final String SPACE = " ";
 
     private final ESClientProvider provider;
 
@@ -74,7 +73,8 @@ public class ESAccessServiceImpl implements ESAccessService {
     }
 
     /**
-     * Converts each word in a query to more general form to perform better search
+     * Converts each word in a query to more general form to perform better search.
+     *
      * @param query Initial query.
      * @return Terms array.
      * @throws IOException if failed.
