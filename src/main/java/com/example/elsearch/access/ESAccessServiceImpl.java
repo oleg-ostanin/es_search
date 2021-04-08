@@ -87,7 +87,6 @@ public class ESAccessServiceImpl implements ESAccessService {
 
         return response.getTokens().stream()
                 .map(AnalyzeResponse.AnalyzeToken::getTerm)
-                .filter(term -> term.length() > 1)
                 .distinct()
                 .toArray(String[]::new);
     }
