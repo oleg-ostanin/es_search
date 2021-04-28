@@ -1,11 +1,11 @@
 package com.example.elsearch.data;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
 public class EsSearchResult {
     private final List<Item> items = new ArrayList<>();
 }
