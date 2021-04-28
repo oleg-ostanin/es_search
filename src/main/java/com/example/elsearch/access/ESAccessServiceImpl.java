@@ -23,7 +23,6 @@ import java.util.Map;
 public class ESAccessServiceImpl implements ESAccessService {
     private static final String NILS_TEST_INDEX = "nils_test_index";
     private static final String TITLE = "title";
-    private static final String TITLE_TAGS = "title_tags";
     private static final String LINK = "link";
     private static final String PUB_DATE = "pubDate";
     private static final String COMMENTS = "comments";
@@ -43,10 +42,9 @@ public class ESAccessServiceImpl implements ESAccessService {
         SearchRequest searchRequest = new SearchRequest(NILS_TEST_INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-        for(String term : getTerms(query)) {
-            MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(TITLE_TAGS, term);
-            searchSourceBuilder.query(matchQueryBuilder);
-        }
+        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(TITLE, query);
+
+        searchSourceBuilder.query(matchQueryBuilder);
 
         searchRequest.source(searchSourceBuilder);
 
@@ -70,24 +68,5 @@ public class ESAccessServiceImpl implements ESAccessService {
         }
 
         return result;
-    }
-
-    /**
-     * Converts each word in a query to more general form to perform better search.
-     *
-     * @param query Initial query.
-     * @return Terms array.
-     * @throws IOException if failed.
-     */
-    private String[] getTerms(String query) throws IOException {
-        AnalyzeRequest analyzeRequest = AnalyzeRequest.withGlobalAnalyzer("english", query);
-
-        AnalyzeResponse response = provider.restHighLevelClient().indices()
-                .analyze(analyzeRequest, RequestOptions.DEFAULT);
-
-        return response.getTokens().stream()
-                .map(AnalyzeResponse.AnalyzeToken::getTerm)
-                .distinct()
-                .toArray(String[]::new);
     }
 }
