@@ -9,4 +9,5 @@ public class Item {
     private String description;
     private String pubDate;
     private String comments;
+    private Float score;
 }
