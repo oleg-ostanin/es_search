@@ -5,6 +5,8 @@ import com.example.elsearch.data.Item;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.FuzzyQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -40,9 +42,12 @@ public class ESAccessServiceImpl implements ESAccessService {
         SearchRequest searchRequest = new SearchRequest(NILS_TEST_INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(TITLE, query);
+        //MatchQueryBuilder queryBuilder = new MatchQueryBuilder(TITLE, query);
 
-        searchSourceBuilder.query(matchQueryBuilder);
+        FuzzyQueryBuilder queryBuilder = new FuzzyQueryBuilder(TITLE, query);
+        queryBuilder.fuzziness(Fuzziness.AUTO);
+
+        searchSourceBuilder.query(queryBuilder);
 
         searchRequest.source(searchSourceBuilder);
 
